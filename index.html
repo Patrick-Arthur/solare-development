@@ -1,306 +1,1566 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Atende Clínica: automação de atendimento, agendamento e reativação de clientes para clínicas. WhatsApp, Google Agenda e Google Sheets integrados.">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta
+    name="description"
+    content="Atende Clínica: automação de atendimento, agendamento e reativação de clientes para clínicas. WhatsApp, Google Agenda e Google Sheets integrados."
+  />
   <title>Atende Clínica | Automação de atendimento e agendamento para clínicas</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --bg: #071311;
+      --bg-soft: #0b1c19;
+      --surface: rgba(15, 34, 29, 0.78);
+      --surface-strong: rgba(16, 40, 35, 0.95);
+      --card: rgba(255, 255, 255, 0.06);
+      --card-border: rgba(255, 255, 255, 0.1);
+      --text: #ecfdf7;
+      --text-soft: #c6ddd4;
+      --text-muted: #93b5a9;
+      --primary: #38d39f;
+      --primary-2: #1fb981;
+      --accent: #7cf5ce;
+      --danger: #ff8f8f;
+      --warning: #ffd37a;
+      --shadow: 0 20px 80px rgba(0, 0, 0, 0.35);
+      --radius-xl: 30px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --container: 1180px;
+      --nav-h: 86px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(56, 211, 159, 0.18), transparent 28%),
+        radial-gradient(circle at 100% 20%, rgba(124, 245, 206, 0.14), transparent 28%),
+        radial-gradient(circle at 50% 100%, rgba(31, 185, 129, 0.14), transparent 35%),
+        linear-gradient(180deg, #06110f 0%, #071311 40%, #081815 100%);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: radial-gradient(circle at center, black 40%, transparent 85%);
+      opacity: 0.45;
+      z-index: 0;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .container {
+      width: min(var(--container), calc(100% - 2rem));
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section {
+      padding: 110px 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-heading {
+      max-width: 760px;
+      margin: 0 auto 56px;
+      text-align: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(124, 245, 206, 0.22);
+      background: rgba(124, 245, 206, 0.08);
+      color: var(--accent);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    .eyebrow::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--primary);
+      box-shadow: 0 0 14px rgba(56, 211, 159, 0.8);
+    }
+
+    h1, h2, h3, h4 {
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+    }
+
+    h1 {
+      font-size: clamp(2.6rem, 5vw, 5rem);
+      font-weight: 900;
+    }
+
+    h2 {
+      font-size: clamp(2rem, 3vw, 3.4rem);
+      font-weight: 800;
+      margin-bottom: 14px;
+    }
+
+    h3 {
+      font-size: 1.22rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .section-subtitle,
+    .subtitle,
+    p {
+      color: var(--text-soft);
+      font-size: 1.03rem;
+    }
+
+    .section-subtitle {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(18px);
+      background: rgba(7, 19, 17, 0.58);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .nav-wrap {
+      width: min(var(--container), calc(100% - 2rem));
+      margin: 0 auto;
+      min-height: var(--nav-h);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      font-size: 1.08rem;
+      letter-spacing: -0.02em;
+    }
+
+    .logo-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--primary), #7cf5ce);
+      color: #05251b;
+      font-weight: 900;
+      box-shadow: 0 16px 34px rgba(56, 211, 159, 0.25);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      padding: 12px 16px;
+      border-radius: 999px;
+      color: var(--text-soft);
+      font-weight: 600;
+      transition: 0.28s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.06);
+      transform: translateY(-2px);
+    }
+
+    .cta-nav,
+    .cta-primary,
+    .cta-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-weight: 700;
+      border-radius: 16px;
+      transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease, background 0.28s ease;
+      will-change: transform;
+    }
+
+    .cta-nav,
+    .cta-primary {
+      color: #07231a;
+      background: linear-gradient(135deg, var(--accent), var(--primary));
+      box-shadow: 0 18px 40px rgba(56, 211, 159, 0.24);
+    }
+
+    .cta-nav:hover,
+    .cta-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(16, 185, 129, 0.35);
+  filter: brightness(1.05);
+    }
+
+    .cta-nav {
+      padding: 12px 18px;
+        background: linear-gradient(135deg, #34d399, #10b981);
+  color: white;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 14px 28px;
+  transition: all 0.2s ease;
+  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.25);
+    }
+
+    .cta-primary {
+      padding: 16px 22px;
+    }
+
+    .cta-secondary {
+      padding: 16px 22px;
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.05);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+    }
+
+    .cta-secondary:hover {
+      transform: translateY(-3px);
+      background: rgba(255,255,255,0.09);
+      border-color: rgba(124,245,206,0.22);
+    }
+
+    .hero {
+      padding: 72px 0 40px;
+      min-height: calc(100vh - var(--nav-h));
+      display: flex;
+      align-items: center;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 42px;
+      align-items: center;
+    }
+
+    .hero-copy {
+      max-width: 650px;
+    }
+
+    .hero-copy .subtitle {
+      margin: 20px 0 28px;
+      font-size: 1.12rem;
+      max-width: 600px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 26px;
+    }
+
+    .hero-proof {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 24px;
+    }
+
+    .hero-proof-item {
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--text-soft);
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .hero-stats-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 34px;
+    }
+
+    .stat-chip {
+      padding: 18px;
+      border-radius: 20px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: var(--shadow);
+    }
+
+    .stat-chip strong {
+      display: block;
+      font-size: clamp(1.7rem, 3vw, 2.5rem);
+      font-weight: 800;
+      color: white;
+      margin-bottom: 6px;
+    }
+
+    .stat-chip span {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .hero-visual {
+      position: relative;
+    }
+
+    .hero-visual::before,
+    .hero-visual::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(24px);
+      z-index: -1;
+    }
+
+    .hero-visual::before {
+      width: 220px;
+      height: 220px;
+      background: rgba(56, 211, 159, 0.18);
+      top: -10%;
+      right: 0;
+    }
+
+    .hero-visual::after {
+      width: 160px;
+      height: 160px;
+      background: rgba(124, 245, 206, 0.12);
+      bottom: 10%;
+      left: 0;
+    }
+
+    .dashboard-shell {
+      position: relative;
+      border-radius: 30px;
+      padding: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04));
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(20px);
+      overflow: hidden;
+    }
+
+    .dashboard-shell::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(124, 245, 206, 0.08), transparent 35%, transparent 65%, rgba(56, 211, 159, 0.12));
+      pointer-events: none;
+    }
+
+    .mockup-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 12px 16px;
+    }
+
+    .mockup-topline {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .mockup-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+    }
+
+    .mockup-title {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .dashboard-body {
+      display: grid;
+      grid-template-columns: 1.25fr 0.75fr;
+      gap: 16px;
+    }
+
+    .panel,
+    .mini-panel,
+    .glass-card,
+    .problem-card,
+    .solution-item,
+    .benefit-card,
+    .integration-card,
+    .demo-card,
+    .step,
+    .pain-card,
+    .metric-card,
+    .feature-card,
+    .testimonial-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.04));
+      border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(14px);
+      box-shadow: var(--shadow);
+    }
+
+    .panel {
+      border-radius: 24px;
+      padding: 20px;
+    }
+
+    .chat-stack,
+    .demo-chat {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .chat-bubble,
+    .demo-msg {
+      max-width: 88%;
+      padding: 14px 16px;
+      border-radius: 18px;
+      font-size: 0.95rem;
+      line-height: 1.55;
+    }
+
+    .chat-client,
+    .demo-msg-client {
+      background: rgba(255,255,255,0.08);
+      color: var(--text);
+      align-self: flex-start;
+      border-top-left-radius: 8px;
+    }
+
+    .chat-bot,
+    .demo-msg-bot {
+      background: linear-gradient(135deg, rgba(56,211,159,0.26), rgba(124,245,206,0.12));
+      color: #effff8;
+      align-self: flex-end;
+      border-top-right-radius: 8px;
+      border: 1px solid rgba(124,245,206,0.16);
+    }
+
+    .side-stack {
+      display: grid;
+      gap: 14px;
+    }
+
+    .mini-panel {
+      border-radius: 22px;
+      padding: 16px;
+    }
+
+    .mini-panel strong {
+      display: block;
+      font-size: 1.6rem;
+      margin-bottom: 4px;
+      font-weight: 800;
+    }
+
+    .mini-panel span {
+      color: var(--text-muted);
+      font-size: 0.93rem;
+    }
+
+    .logo-cloud {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 34px;
+    }
+
+    .logo-chip {
+      padding: 16px;
+      text-align: center;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--text-soft);
+      font-weight: 600;
+    }
+
+    .pain-grid,
+    .benefits-grid,
+    .integrations-grid,
+    .demo-grid,
+    .metrics-grid,
+    .testimonials-grid {
+      display: grid;
+      gap: 20px;
+    }
+
+    .pain-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .benefits-grid,
+    .integrations-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .demo-grid,
+    .metrics-grid,
+    .testimonials-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .pain-card,
+    .problem-card,
+    .benefit-card,
+    .integration-card,
+    .demo-card,
+    .testimonial-card {
+      border-radius: 24px;
+      padding: 26px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.35s ease, border-color 0.35s ease, background 0.35s ease;
+    }
+
+    .pain-card:hover,
+    .problem-card:hover,
+    .benefit-card:hover,
+    .integration-card:hover,
+    .demo-card:hover,
+    .testimonial-card:hover,
+    .solution-item:hover,
+    .metric-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(124,245,206,0.24);
+      background: linear-gradient(180deg, rgba(255,255,255,0.09), rgba(255,255,255,0.05));
+    }
+
+    .pain-icon,
+    .problem-icon,
+    .benefit-icon,
+    .integration-icon {
+      width: 58px;
+      height: 58px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 18px;
+      background: linear-gradient(135deg, rgba(56,211,159,0.2), rgba(124,245,206,0.08));
+      border: 1px solid rgba(124,245,206,0.14);
+      color: var(--accent);
+    }
+
+    .pain-card p,
+    .problem-card p,
+    .benefit-card p,
+    .integration-card p,
+    .demo-card p,
+    .testimonial-card p {
+      color: var(--text-soft);
+    }
+
+    .problem-card::after,
+    .benefit-card::after,
+    .integration-card::after,
+    .pain-card::after,
+    .metric-card::after,
+    .testimonial-card::after {
+      content: '';
+      position: absolute;
+      inset: auto -40px -40px auto;
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(56,211,159,0.18), transparent 70%);
+      pointer-events: none;
+    }
+
+    .problem-grid-5 {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .problem-card h3 {
+      font-size: 1.05rem;
+    }
+
+    .solution-wrap {
+      display: grid;
+      grid-template-columns: 0.92fr 1.08fr;
+      gap: 30px;
+      align-items: start;
+    }
+
+    .feature-panel {
+      position: sticky;
+      top: 110px;
+      border-radius: 28px;
+      padding: 28px;
+      background: linear-gradient(180deg, rgba(15,43,36,0.95), rgba(11,29,25,0.9));
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: var(--shadow);
+    }
+
+    .feature-list {
+      display: grid;
+      gap: 14px;
+      margin-top: 26px;
+    }
+
+    .feature-card {
+      padding: 16px 18px;
+      border-radius: 18px;
+    }
+
+    .feature-card strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .solution-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .solution-item {
+      padding: 24px;
+      border-radius: 24px;
+      position: relative;
+      overflow: hidden;
+      transition: 0.35s ease;
+    }
+
+    .solution-number {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 18px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent), var(--primary));
+      color: #062017;
+      box-shadow: 0 16px 32px rgba(56,211,159,0.22);
+    }
+
+    .steps {
+      max-width: 930px;
+      margin: 0 auto;
+      display: grid;
+      gap: 18px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 84px 1fr;
+      gap: 18px;
+      padding: 24px;
+      border-radius: 24px;
+      transition: 0.35s ease;
+    }
+
+    .step:hover {
+      transform: translateY(-6px);
+      border-color: rgba(124,245,206,0.24);
+    }
+
+    .step-indicator {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .step-number {
+      width: 50px;
+      height: 50px;
+      display: grid;
+      place-items: center;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--accent), var(--primary));
+      color: #07231a;
+      font-weight: 900;
+      box-shadow: 0 16px 32px rgba(56,211,159,0.22);
+    }
+
+    .step-line {
+      width: 2px;
+      flex: 1;
+      min-height: 64px;
+      background: linear-gradient(180deg, rgba(124,245,206,0.5), rgba(124,245,206,0.05));
+      border-radius: 999px;
+    }
+
+    .metrics-grid {
+      margin-top: 10px;
+    }
+
+    .metric-card {
+      border-radius: 24px;
+      padding: 28px;
+      text-align: center;
+      transition: 0.35s ease;
+    }
+
+    .metric-number {
+      display: block;
+      font-size: clamp(2.2rem, 4vw, 3.4rem);
+      font-weight: 900;
+      color: white;
+      margin-bottom: 10px;
+      letter-spacing: -0.04em;
+    }
+
+    .metric-label {
+      color: var(--text-soft);
+      font-weight: 600;
+    }
+
+    .demo-card-header {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 18px;
+      color: white;
+    }
+
+    .agenda-item,
+    .reactivation-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .agenda-item:last-child,
+    .reactivation-item:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .agenda-time {
+      font-weight: 800;
+      color: white;
+      min-width: 62px;
+    }
+
+    .agenda-detail,
+    .reactivation-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .agenda-detail span,
+    .reactivation-info span {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+    }
+
+    .agenda-status,
+    .reactivation-badge {
+      padding: 8px 10px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      white-space: nowrap;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.05);
+    }
+
+    .confirmed,
+    .success {
+      color: #9ef6cf;
+      background: rgba(56,211,159,0.12);
+      border-color: rgba(56,211,159,0.18);
+    }
+
+    .pending {
+      color: var(--warning);
+      background: rgba(255,211,122,0.09);
+      border-color: rgba(255,211,122,0.18);
+    }
+
+    .testimonial-card {
+      min-height: 100%;
+    }
+
+    .testimonial-stars {
+      color: #ffe08a;
+      letter-spacing: 0.12em;
+      margin-bottom: 14px;
+      font-size: 0.95rem;
+    }
+
+    .testimonial-author {
+      margin-top: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .testimonial-author strong {
+      color: white;
+    }
+
+    .testimonial-author span {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+    }
+
+    .cta-final {
+      padding-bottom: 120px;
+    }
+
+    .cta-final-content {
+      position: relative;
+      overflow: hidden;
+      border-radius: 34px;
+      padding: 56px;
+      background:
+        radial-gradient(circle at top right, rgba(124,245,206,0.2), transparent 28%),
+        radial-gradient(circle at bottom left, rgba(56,211,159,0.2), transparent 28%),
+        linear-gradient(135deg, #0f2d27, #0b1f1b 55%, #0d2621);
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    .cta-final-content h2 {
+      max-width: 840px;
+      margin: 0 auto 16px;
+    }
+
+    .cta-final-content p {
+      max-width: 760px;
+      margin: 0 auto 28px;
+      font-size: 1.08rem;
+    }
+
+    .cta-final-actions {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      background: rgba(5, 14, 12, 0.7);
+      backdrop-filter: blur(14px);
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-wrap {
+      width: min(var(--container), calc(100% - 2rem));
+      margin: 0 auto;
+      padding: 32px 0;
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .footer-copy {
+      color: var(--text-muted);
+    }
+
+    .footer-copy strong {
+      color: var(--text);
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-links a {
+      color: var(--text-soft);
+      transition: 0.25s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent);
+    }
+
+    .copyright {
+      text-align: center;
+      padding: 0 1rem 28px;
+      color: var(--text-muted);
+      font-size: 0.92rem;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(34px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-54px);
+      transition: opacity 0.85s ease, transform 0.85s ease;
+    }
+
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(54px);
+      transition: opacity 0.85s ease, transform 0.85s ease;
+    }
+
+    .reveal.is-visible,
+    .reveal-left.is-visible,
+    .reveal-right.is-visible {
+      opacity: 1;
+      transform: translate(0, 0);
+    }
+
+    @media (max-width: 1160px) {
+      .problem-grid-5 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .benefits-grid,
+      .integrations-grid,
+      .demo-grid,
+      .metrics-grid,
+      .testimonials-grid,
+      .pain-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 980px) {
+      :root {
+        --nav-h: 78px;
+      }
+
+      .hero-grid,
+      .solution-wrap,
+      .dashboard-body {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding-top: 42px;
+      }
+
+      .feature-panel {
+        position: relative;
+        top: 0;
+      }
+
+      .hero-proof,
+      .hero-stats-strip,
+      .solution-grid,
+      .logo-cloud {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .nav-wrap {
+        flex-direction: column;
+        justify-content: center;
+        padding: 14px 0;
+      }
+
+      .nav-links {
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .section {
+        padding: 86px 0;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+      }
+
+      h2 {
+        font-size: 1.9rem;
+      }
+
+      .problem-grid-5,
+      .benefits-grid,
+      .integrations-grid,
+      .demo-grid,
+      .metrics-grid,
+      .testimonials-grid,
+      .pain-grid,
+      .solution-grid,
+      .hero-proof,
+      .hero-stats-strip,
+      .logo-cloud {
+        grid-template-columns: 1fr;
+      }
+
+      .step {
+        grid-template-columns: 1fr;
+      }
+
+      .step-indicator {
+        flex-direction: row;
+        align-items: center;
+      }
+
+      .step-line {
+        width: 100%;
+        height: 2px;
+        min-height: 2px;
+      }
+
+      .cta-final-content {
+        padding: 36px 22px;
+      }
+
+      .footer-wrap {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .hero-actions,
+      .cta-final-actions {
+        flex-direction: column;
+      }
+
+      .cta-primary,
+      .cta-secondary {
+        width: 100%;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+
+      .reveal,
+      .reveal-left,
+      .reveal-right {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+    }
+  </style>
 </head>
 <body>
   <header>
-    <nav>
-      <div class="logo">Atende Clínica</div>
-      <div class="nav-links">
+    <div class="nav-wrap">
+      <a class="logo" href="#top" aria-label="Atende Clínica">
+        <span class="logo-mark">A+</span>
+        <span>Atende Clínica</span>
+      </a>
+
+      <nav class="nav-links">
         <a href="#problemas">Problemas</a>
+        <a href="#solucao">Solução</a>
         <a href="#como-funciona">Como funciona</a>
         <a href="#integracoes">Integrações</a>
+        <a href="#demo">Demonstração</a>
         <a href="#contato" class="cta-nav">Quero ver funcionando</a>
-      </div>
-    </nav>
+      </nav>
+    </div>
   </header>
 
-  <main>
-    <!-- HERO -->
+  <main id="top">
     <section class="hero">
-      <div class="hero-copy">
-        <p class="eyebrow">Atende Clínica</p>
-        <h1>Automatize seu atendimento e preencha sua agenda sem depender do WhatsApp manual</h1>
-        <p class="subtitle">Seu sistema responde clientes, organiza agendamentos, integra com Google Agenda e ajuda a reativar pacientes que sumiram.</p>
-        <div class="hero-actions">
-          <a href="#contato" class="cta-primary">Quero ver funcionando</a>
-          <a href="#demo" class="cta-secondary">Ver demonstração</a>
-        </div>
-        <div class="hero-proof">
-          <span class="hero-proof-item">WhatsApp automatizado</span>
-          <span class="hero-proof-item">Google Agenda integrado</span>
-          <span class="hero-proof-item">Reativação de clientes</span>
-        </div>
-      </div>
-      <div class="hero-visual">
-        <div class="hero-mockup">
-          <div class="mockup-header">
-            <span class="mockup-dot"></span>
-            <span class="mockup-dot"></span>
-            <span class="mockup-dot"></span>
-            <span class="mockup-title">Atende Clínica — Painel</span>
+      <div class="container hero-grid">
+        <div class="hero-copy reveal-left">
+          <div class="eyebrow">Automação para clínicas</div>
+          <h1>Automatize o atendimento da sua clínica e transforme conversas em agenda cheia.</h1>
+          <p class="subtitle">
+            O Atende Clínica responde no WhatsApp, organiza agendamentos, integra com Google Agenda e Google Sheets e ainda ajuda a reativar pacientes que sumiram.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#contato" class="cta-primary">Quero ver funcionando</a>
+            <a href="#demo" class="cta-secondary">Ver demonstração</a>
           </div>
-          <div class="mockup-body">
-            <div class="mockup-chat">
-              <div class="chat-bubble chat-client">Oi, quero agendar uma limpeza de pele para sexta</div>
-              <div class="chat-bubble chat-bot">Claro! Temos horário às 14h e 16h na sexta. Qual prefere?</div>
-              <div class="chat-bubble chat-client">14h por favor</div>
-              <div class="chat-bubble chat-bot">Agendado! Sexta às 14h, limpeza de pele. Envio a confirmação por aqui mesmo.</div>
+
+          <div class="hero-proof">
+            <div class="hero-proof-item">WhatsApp automatizado</div>
+            <div class="hero-proof-item">Agenda integrada</div>
+            <div class="hero-proof-item">Reativação de clientes</div>
+          </div>
+
+          <div class="hero-stats-strip">
+            <div class="stat-chip">
+              <strong class="count-up" data-target="47">0</strong>
+              <span>Agendamentos este mês</span>
             </div>
-            <div class="mockup-sidebar">
-              <div class="mockup-stat">
-                <span class="stat-number">47</span>
-                <span class="stat-label">Agendamentos este mês</span>
-              </div>
-              <div class="mockup-stat">
-                <span class="stat-number">12</span>
-                <span class="stat-label">Clientes reativados</span>
-              </div>
-              <div class="mockup-stat">
-                <span class="stat-number">94%</span>
-                <span class="stat-label">Taxa de resposta</span>
-              </div>
+            <div class="stat-chip">
+              <strong class="count-up" data-target="12">0</strong>
+              <span>Clientes reativados</span>
+            </div>
+            <div class="stat-chip">
+              <strong class="count-up" data-target="94" data-suffix="%">0%</strong>
+              <span>Taxa de resposta</span>
             </div>
           </div>
         </div>
-      </div>
-    </section>
 
-    <!-- PROBLEMAS -->
-    <section class="problems" id="problemas">
-      <h2>Sua clínica enfrenta isso?</h2>
-      <p class="section-subtitle">Se pelo menos dois desses problemas fazem parte da sua rotina, você está perdendo clientes e dinheiro todos os dias.</p>
-      <div class="grid-5">
-        <article class="problem-card">
-          <div class="problem-icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><line x1="9" y1="10" x2="9" y2="10"/><line x1="15" y1="10" x2="15" y2="10"/></svg>
-          </div>
-          <h3>Clientes perdidos no WhatsApp</h3>
-          <p>Mensagens chegam, ninguém responde a tempo e o cliente agenda em outro lugar.</p>
-        </article>
-        <article class="problem-card">
-          <div class="problem-icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          </div>
-          <h3>Demora no atendimento</h3>
-          <p>Sua equipe está ocupada atendendo e não consegue responder rápido quem está no chat.</p>
-        </article>
-        <article class="problem-card">
-          <div class="problem-icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          </div>
-          <h3>Agenda com buracos</h3>
-          <p>Horários vazios que poderiam estar preenchidos, mas ninguém faz o acompanhamento.</p>
-        </article>
-        <article class="problem-card">
-          <div class="problem-icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
-          </div>
-          <h3>Falta de controle</h3>
-          <p>Dados de clientes espalhados, sem histórico e sem visão clara de como está a operação.</p>
-        </article>
-        <article class="problem-card">
-          <div class="problem-icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-          </div>
-          <h3>Clientes que somem</h3>
-          <p>Pacientes fazem um procedimento, não voltam e ninguém entra em contato para reativar.</p>
-        </article>
-      </div>
-    </section>
+        <div class="hero-visual reveal-right">
+          <div class="dashboard-shell">
+            <div class="mockup-header">
+              <div class="mockup-topline">
+                <span class="mockup-dot"></span>
+                <span class="mockup-dot"></span>
+                <span class="mockup-dot"></span>
+              </div>
+              <span class="mockup-title">Atende Clínica — Painel Inteligente</span>
+            </div>
 
-    <!-- SOLUÇÃO -->
-    <section class="solution">
-      <h2>Como o Atende Clínica resolve</h2>
-      <p class="section-subtitle">Uma solução completa que cuida do atendimento, agendamento e acompanhamento dos seus clientes.</p>
-      <div class="solution-grid">
-        <div class="solution-item">
-          <div class="solution-number">1</div>
-          <h3>O bot responde</h3>
-          <p>Atendimento automático 24h no WhatsApp. Tira dúvidas, informa valores e horários sem depender da sua equipe.</p>
-        </div>
-        <div class="solution-item">
-          <div class="solution-number">2</div>
-          <h3>O sistema agenda</h3>
-          <p>O cliente escolhe data e horário dentro da conversa. Sem formulário externo, sem troca de app.</p>
-        </div>
-        <div class="solution-item">
-          <div class="solution-number">3</div>
-          <h3>A agenda organiza</h3>
-          <p>Tudo entra no Google Agenda e na planilha da clínica automaticamente. Nada se perde.</p>
-        </div>
-        <div class="solution-item">
-          <div class="solution-number">4</div>
-          <h3>A clínica acompanha</h3>
-          <p>Dashboard com visão geral: agendamentos, conversas, métricas e status dos atendimentos.</p>
-        </div>
-        <div class="solution-item">
-          <div class="solution-number">5</div>
-          <h3>Clientes voltam</h3>
-          <p>Identificação automática de clientes inativos com fluxo de reativação para trazer de volta.</p>
-        </div>
-      </div>
-    </section>
+            <div class="dashboard-body">
+              <div class="panel">
+                <div class="chat-stack">
+                  <div class="chat-bubble chat-client">Oi, quero agendar uma limpeza de pele para sexta.</div>
+                  <div class="chat-bubble chat-bot">Claro. Temos horários às 14h e 16h na sexta. Qual prefere?</div>
+                  <div class="chat-bubble chat-client">14h, por favor.</div>
+                  <div class="chat-bubble chat-bot">Perfeito. Agendei sua limpeza de pele para sexta às 14h. Posso te enviar a confirmação por aqui.</div>
+                </div>
+              </div>
 
-    <!-- COMO FUNCIONA -->
-    <section class="how" id="como-funciona">
-      <h2>Como funciona na prática</h2>
-      <p class="section-subtitle">Do primeiro contato até a consulta confirmada, em 5 passos simples.</p>
-      <div class="steps">
-        <div class="step">
-          <div class="step-indicator">
-            <span class="step-number">1</span>
-            <div class="step-line"></div>
-          </div>
-          <div class="step-content">
-            <h3>Cliente chama no WhatsApp</h3>
-            <p>Sua clínica recebe a mensagem no número oficial. O sistema entra em ação automaticamente.</p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-indicator">
-            <span class="step-number">2</span>
-            <div class="step-line"></div>
-          </div>
-          <div class="step-content">
-            <h3>Sistema responde e agenda</h3>
-            <p>O bot tira dúvidas, mostra horários disponíveis e registra o agendamento na conversa.</p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-indicator">
-            <span class="step-number">3</span>
-            <div class="step-line"></div>
-          </div>
-          <div class="step-content">
-            <h3>Consulta entra na agenda</h3>
-            <p>O agendamento aparece no Google Agenda da clínica com todos os detalhes do cliente.</p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-indicator">
-            <span class="step-number">4</span>
-            <div class="step-line"></div>
-          </div>
-          <div class="step-content">
-            <h3>Dados vão para a planilha</h3>
-            <p>Nome, telefone, procedimento e horário ficam registrados no Google Sheets automaticamente.</p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-indicator">
-            <span class="step-number">5</span>
-          </div>
-          <div class="step-content">
-            <h3>Clínica acompanha tudo</h3>
-            <p>No painel, você vê agendamentos, conversas, métricas e clientes que precisam de atenção.</p>
+              <div class="side-stack">
+                <div class="mini-panel">
+                  <strong class="count-up" data-target="186">0</strong>
+                  <span>Conversas atendidas no mês</span>
+                </div>
+                <div class="mini-panel">
+                  <strong class="count-up" data-target="28">0</strong>
+                  <span>Horários preenchidos automaticamente</span>
+                </div>
+                <div class="mini-panel">
+                  <strong class="count-up" data-target="7" data-prefix="R$ ">R$ 0</strong>
+                  <span>mil em receita reativada</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- BENEFÍCIOS -->
-    <section class="benefits">
-      <h2>O que muda na sua clínica</h2>
-      <div class="benefits-grid">
-        <article class="benefit-card">
-          <div class="benefit-icon">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-          </div>
-          <h3>Menos trabalho manual</h3>
-          <p>Sua equipe para de perder tempo respondendo as mesmas perguntas e anotando agendamentos à mão.</p>
-        </article>
-        <article class="benefit-card">
-          <div class="benefit-icon">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-          </div>
-          <h3>Mais organização</h3>
-          <p>Agenda, planilha e painel centralizados. Nada se perde entre conversas e anotações.</p>
-        </article>
-        <article class="benefit-card">
-          <div class="benefit-icon">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-          </div>
-          <h3>Mais previsibilidade</h3>
-          <p>Com dados organizados, você sabe quantos agendamentos tem, quem vem e quem não volta.</p>
-        </article>
-        <article class="benefit-card">
-          <div class="benefit-icon">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-          </div>
-          <h3>Clientes que voltam</h3>
-          <p>Reativação automática traz de volta quem sumiu. Sem depender da memória da equipe.</p>
-        </article>
-        <article class="benefit-card">
-          <div class="benefit-icon">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-          </div>
-          <h3>Melhor experiência</h3>
-          <p>Seus clientes recebem resposta rápida, confirmação imediata e atendimento consistente.</p>
-        </article>
-      </div>
-    </section>
-
-    <!-- INTEGRAÇÕES -->
-    <section class="integrations" id="integracoes">
-      <h2>Integrações que sua clínica já usa</h2>
-      <p class="section-subtitle">O Atende Clínica se conecta com as ferramentas do dia a dia da sua equipe.</p>
-      <div class="integrations-grid">
-        <div class="integration-card">
-          <div class="integration-icon">
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-          </div>
-          <h3>WhatsApp</h3>
-          <p>Atendimento automático no número da sua clínica, 24 horas por dia.</p>
-        </div>
-        <div class="integration-card">
-          <div class="integration-icon">
-            <svg width="40" height="40" viewBox="0 0 24 24"><path fill="#0F9D58" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/><path fill="#fff" d="M19 11H5v2h14v-2zm0-4H5v2h14V7zm-7 8H5v2h7v-2z"/></svg>
-          </div>
-          <h3>Google Sheets</h3>
-          <p>Dados de clientes e agendamentos registrados automaticamente na planilha.</p>
-        </div>
-        <div class="integration-card">
-          <div class="integration-icon">
-            <svg width="40" height="40" viewBox="0 0 24 24"><path fill="#4285F4" d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10z"/><path fill="#4285F4" d="M9 14h2v2H9zm4 0h2v2h-2zm-4-4h2v2H9zm4 0h2v2h-2z"/></svg>
-          </div>
-          <h3>Google Calendar</h3>
-          <p>Agendamentos entram direto no Google Agenda da clínica com detalhes completos.</p>
-        </div>
-        <div class="integration-card">
-          <div class="integration-icon">
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0e7c66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
-          </div>
-          <h3>Painel interno</h3>
-          <p>Dashboard com visão completa: conversas, agendamentos, métricas e configurações.</p>
+    <section class="section">
+      <div class="container">
+        <div class="logo-cloud reveal">
+          <div class="logo-chip">WhatsApp</div>
+          <div class="logo-chip">Google Calendar</div>
+          <div class="logo-chip">Google Sheets</div>
+          <div class="logo-chip">Painel interno</div>
         </div>
       </div>
     </section>
 
-    <!-- DEMO / PROVA -->
-    <section class="demo-section" id="demo">
-      <h2>Veja o sistema em ação</h2>
-      <p class="section-subtitle">Veja como o atendimento automático funciona na prática.</p>
-      <div class="demo-grid">
-        <div class="demo-card">
-          <div class="demo-card-header">Atendimento automático</div>
-          <div class="demo-card-body">
+    <section class="section" id="problemas">
+      <div class="container">
+        <div class="section-heading reveal">
+          <div class="eyebrow">Dor real da operação</div>
+          <h2>Sua clínica está perdendo pacientes antes mesmo do atendimento começar?</h2>
+          <p class="section-subtitle">
+            O problema não é só o volume de mensagens. É perder tempo, agenda e faturamento por causa de um atendimento manual e desorganizado.
+          </p>
+        </div>
+
+        <div class="pain-grid">
+          <article class="pain-card reveal-left">
+            <div class="pain-icon">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><line x1="9" y1="10" x2="9" y2="10"/><line x1="15" y1="10" x2="15" y2="10"/></svg>
+            </div>
+            <h3>Mensagens sem resposta viram clientes perdidos</h3>
+            <p>Quando o retorno demora, o paciente procura outra clínica e você perde a venda sem perceber.</p>
+          </article>
+
+          <article class="pain-card reveal">
+            <div class="pain-icon">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <h3>Equipe ocupada demais para atender rápido</h3>
+            <p>Enquanto a recepção está no atendimento presencial, o WhatsApp fica parado e o lead esfria.</p>
+          </article>
+
+          <article class="pain-card reveal-right">
+            <div class="pain-icon">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <h3>Buracos na agenda reduzem o faturamento</h3>
+            <p>Horários ficam vazios porque ninguém faz follow-up, remarcação ou recuperação de clientes inativos.</p>
+          </article>
+        </div>
+
+        <div class="problem-grid-5" style="margin-top: 18px;">
+          <article class="problem-card reveal-left">
+            <div class="problem-icon">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <h3>Clientes que somem</h3>
+            <p>Pacientes fazem um procedimento e nunca mais voltam.</p>
+          </article>
+
+          <article class="problem-card reveal-left">
+            <div class="problem-icon">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+            </div>
+            <h3>Falta de histórico</h3>
+            <p>Informações espalhadas sem controle central da operação.</p>
+          </article>
+
+          <article class="problem-card reveal">
+            <div class="problem-icon">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <h3>Trabalho manual demais</h3>
+            <p>A equipe perde energia em tarefas repetitivas e operacionais.</p>
+          </article>
+
+          <article class="problem-card reveal-right">
+            <div class="problem-icon">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <h3>Receita imprevisível</h3>
+            <p>Sem acompanhamento, você não entende a real conversão dos atendimentos.</p>
+          </article>
+
+          <article class="problem-card reveal-right">
+            <div class="problem-icon">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+            <h3>Experiência inconsistente</h3>
+            <p>Cada atendimento depende da disponibilidade e memória da equipe.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="solucao">
+      <div class="container">
+        <div class="section-heading reveal">
+          <div class="eyebrow">Solução completa</div>
+          <h2>Um fluxo automático que atende, agenda, organiza e recupera pacientes.</h2>
+          <p class="section-subtitle">O Atende Clínica foi pensado para deixar a operação mais leve e o comercial mais eficiente.</p>
+        </div>
+
+        <div class="solution-wrap">
+          <aside class="feature-panel reveal-left">
+            <h3 style="font-size: 1.7rem; margin-bottom: 10px;">Mais do que um bot.</h3>
+            <p>É uma camada inteligente de atendimento que opera junto com a rotina da clínica, sem complicar a equipe.</p>
+
+            <div class="feature-list">
+              <div class="feature-card">
+                <strong>Atendimento 24h</strong>
+                <span>Sem depender de alguém online no WhatsApp.</span>
+              </div>
+              <div class="feature-card">
+                <strong>Agendamento integrado</strong>
+                <span>Conversa, agenda e registro funcionando juntos.</span>
+              </div>
+              <div class="feature-card">
+                <strong>Visão gerencial</strong>
+                <span>Mais clareza sobre operação, follow-ups e reativação.</span>
+              </div>
+            </div>
+          </aside>
+
+          <div class="solution-grid">
+            <div class="solution-item reveal-right">
+              <div class="solution-number">1</div>
+              <h3>O bot responde instantaneamente</h3>
+              <p>Tira dúvidas, apresenta horários, procedimentos e conduz o paciente sem depender da recepção.</p>
+            </div>
+            <div class="solution-item reveal-right">
+              <div class="solution-number">2</div>
+              <h3>O cliente agenda dentro da conversa</h3>
+              <p>Sem sair do WhatsApp, sem formulários externos e sem fricção para fechar o atendimento.</p>
+            </div>
+            <div class="solution-item reveal-right">
+              <div class="solution-number">3</div>
+              <h3>Os dados entram no seu fluxo</h3>
+              <p>Google Calendar e Google Sheets recebem as informações automaticamente, reduzindo erro manual.</p>
+            </div>
+            <div class="solution-item reveal-right">
+              <div class="solution-number">4</div>
+              <h3>Você acompanha tudo em painel</h3>
+              <p>Veja conversas, status, agendamentos e indicadores em um único lugar.</p>
+            </div>
+            <div class="solution-item reveal-right" style="grid-column: 1 / -1;">
+              <div class="solution-number">5</div>
+              <h3>Clientes inativos entram em fluxo de reativação</h3>
+              <p>O sistema identifica quem parou de voltar e cria oportunidades de recuperar receita sem depender da memória da equipe.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="como-funciona">
+      <div class="container">
+        <div class="section-heading reveal">
+          <div class="eyebrow">Operação simples</div>
+          <h2>Da primeira mensagem até a consulta confirmada, sem atrito.</h2>
+          <p class="section-subtitle">O fluxo foi desenhado para parecer simples para o paciente e eficiente para a clínica.</p>
+        </div>
+
+        <div class="steps">
+          <div class="step reveal-left">
+            <div class="step-indicator">
+              <span class="step-number">1</span>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-content">
+              <h3>Cliente chama no WhatsApp</h3>
+              <p>O sistema identifica a intenção da conversa e começa o atendimento automático imediatamente.</p>
+            </div>
+          </div>
+
+          <div class="step reveal-right">
+            <div class="step-indicator">
+              <span class="step-number">2</span>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-content">
+              <h3>O bot responde e sugere horários</h3>
+              <p>O paciente já recebe informações úteis e opções de agenda sem esperar retorno manual.</p>
+            </div>
+          </div>
+
+          <div class="step reveal-left">
+            <div class="step-indicator">
+              <span class="step-number">3</span>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-content">
+              <h3>Agendamento é confirmado</h3>
+              <p>O horário escolhido é registrado, mantendo a experiência fluida dentro da própria conversa.</p>
+            </div>
+          </div>
+
+          <div class="step reveal-right">
+            <div class="step-indicator">
+              <span class="step-number">4</span>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-content">
+              <h3>Os dados são organizados automaticamente</h3>
+              <p>Agenda, planilha e painel recebem as informações com menos retrabalho e menos chance de erro.</p>
+            </div>
+          </div>
+
+          <div class="step reveal-left">
+            <div class="step-indicator">
+              <span class="step-number">5</span>
+            </div>
+            <div class="step-content">
+              <h3>A clínica acompanha métricas e clientes inativos</h3>
+              <p>Você passa a enxergar gargalos, oportunidades e reativações possíveis com clareza.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-heading reveal">
+          <div class="eyebrow">Impacto visual e comercial</div>
+          <h2>Números que ajudam a vender melhor a proposta.</h2>
+          <p class="section-subtitle">Aqui entram métricas mockadas para reforçar percepção de resultado durante a apresentação.</p>
+        </div>
+
+        <div class="metrics-grid">
+          <div class="metric-card reveal-left">
+            <span class="metric-number count-up" data-target="3">0</span>
+            <span class="metric-label">vezes mais agilidade no primeiro atendimento</span>
+          </div>
+          <div class="metric-card reveal">
+            <span class="metric-number count-up" data-target="24" data-suffix="h">0h</span>
+            <span class="metric-label">de disponibilidade para responder pacientes</span>
+          </div>
+          <div class="metric-card reveal-right">
+            <span class="metric-number count-up" data-target="30" data-suffix="%">0%</span>
+            <span class="metric-label">mais chance de preencher horários vagos</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-heading reveal">
+          <div class="eyebrow">Benefícios percebidos</div>
+          <h2>O que muda na rotina da sua clínica.</h2>
+        </div>
+
+        <div class="benefits-grid">
+          <article class="benefit-card reveal-left">
+            <div class="benefit-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <h3>Menos trabalho manual</h3>
+            <p>A equipe para de repetir respostas e de anotar tudo à mão.</p>
+          </article>
+          <article class="benefit-card reveal-left">
+            <div class="benefit-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            </div>
+            <h3>Mais organização</h3>
+            <p>Agenda, planilha e painel ficam conectados em um fluxo limpo.</p>
+          </article>
+          <article class="benefit-card reveal">
+            <div class="benefit-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <h3>Mais previsibilidade</h3>
+            <p>Você enxerga melhor a operação e consegue agir antes de perder receita.</p>
+          </article>
+          <article class="benefit-card reveal">
+            <div class="benefit-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <h3>Clientes que voltam</h3>
+            <p>Fluxos de reativação aumentam as chances de retorno de pacientes inativos.</p>
+          </article>
+          <article class="benefit-card reveal-right">
+            <div class="benefit-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+            <h3>Experiência melhor para o paciente</h3>
+            <p>Resposta rápida, confirmação clara e percepção profissional desde o primeiro contato.</p>
+          </article>
+          <article class="benefit-card reveal-right">
+            <div class="benefit-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M12 4h9"/><path d="M4 9h16"/><path d="M4 15h16"/></svg>
+            </div>
+            <h3>Mais confiança para vender</h3>
+            <p>A landing transmite valor de produto premium, não de solução improvisada.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="integracoes">
+      <div class="container">
+        <div class="section-heading reveal">
+          <div class="eyebrow">Integrações</div>
+          <h2>Conectado com as ferramentas que a clínica já usa.</h2>
+          <p class="section-subtitle">Você apresenta um ecossistema real, não apenas uma promessa visual.</p>
+        </div>
+
+        <div class="integrations-grid">
+          <div class="integration-card reveal-left">
+            <div class="integration-icon">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/></svg>
+            </div>
+            <h3>WhatsApp</h3>
+            <p>Canal principal de atendimento e agendamento da clínica.</p>
+          </div>
+          <div class="integration-card reveal-left">
+            <div class="integration-icon">
+              <svg width="36" height="36" viewBox="0 0 24 24"><path fill="#0F9D58" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/><path fill="#fff" d="M19 11H5v2h14v-2zm0-4H5v2h14V7zm-7 8H5v2h7v-2z"/></svg>
+            </div>
+            <h3>Google Sheets</h3>
+            <p>Registros estruturados para operação, acompanhamento e controle.</p>
+          </div>
+          <div class="integration-card reveal-right">
+            <div class="integration-icon">
+              <svg width="36" height="36" viewBox="0 0 24 24"><path fill="#4285F4" d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10z"/><path fill="#4285F4" d="M9 14h2v2H9zm4 0h2v2h-2zm-4-4h2v2H9zm4 0h2v2h-2z"/></svg>
+            </div>
+            <h3>Google Calendar</h3>
+            <p>Compromissos visíveis e organizados com detalhes completos.</p>
+          </div>
+          <div class="integration-card reveal-right">
+            <div class="integration-icon">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#7cf5ce" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+            </div>
+            <h3>Painel interno</h3>
+            <p>Visão de conversas, agendamentos, indicadores e configurações em um só lugar.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="demo">
+      <div class="container">
+        <div class="section-heading reveal">
+          <div class="eyebrow">Demonstração</div>
+          <h2>Uma apresentação com cara de produto SaaS premium.</h2>
+          <p class="section-subtitle">Blocos desenhados para ajudar na venda, deixando a proposta mais tangível e convincente.</p>
+        </div>
+
+        <div class="demo-grid">
+          <div class="demo-card reveal-left">
+            <div class="demo-card-header">Atendimento automático</div>
             <div class="demo-chat">
-              <div class="demo-msg demo-msg-client">Boa tarde! Vocês fazem limpeza de pele?</div>
-              <div class="demo-msg demo-msg-bot">Oi! Sim, fazemos limpeza de pele com hidratação. O procedimento dura cerca de 1h e o valor é R$ 180. Quer agendar?</div>
-              <div class="demo-msg demo-msg-client">Quero! Tem horário quinta?</div>
-              <div class="demo-msg demo-msg-bot">Quinta temos às 10h, 14h e 16h. Qual horário fica melhor pra você?</div>
+              <div class="demo-msg demo-msg-client">Boa tarde. Vocês fazem limpeza de pele?</div>
+              <div class="demo-msg demo-msg-bot">Fazemos sim. O procedimento dura cerca de 1h e o valor é R$ 180. Quer agendar?</div>
+              <div class="demo-msg demo-msg-client">Quero. Tem quinta?</div>
+              <div class="demo-msg demo-msg-bot">Na quinta temos às 10h, 14h e 16h. Qual horário prefere?</div>
             </div>
           </div>
-        </div>
-        <div class="demo-card">
-          <div class="demo-card-header">Agenda organizada</div>
-          <div class="demo-card-body">
+
+          <div class="demo-card reveal">
+            <div class="demo-card-header">Agenda organizada</div>
             <div class="demo-agenda">
               <div class="agenda-item">
                 <span class="agenda-time">09:00</span>
@@ -336,10 +1596,9 @@
               </div>
             </div>
           </div>
-        </div>
-        <div class="demo-card">
-          <div class="demo-card-header">Reativação de clientes</div>
-          <div class="demo-card-body">
+
+          <div class="demo-card reveal-right">
+            <div class="demo-card-header">Reativação de clientes</div>
             <div class="demo-reactivation">
               <div class="reactivation-item">
                 <div class="reactivation-info">
@@ -368,33 +1627,132 @@
       </div>
     </section>
 
-    <!-- CTA FINAL -->
-    <section id="contato" class="cta-final">
-      <div class="cta-final-content">
-        <h2>Pronto para automatizar o atendimento da sua clínica?</h2>
-        <p>Deixe o WhatsApp manual para trás. Monte uma demonstração personalizada para sua clínica e veja como funciona na prática.</p>
-        <div class="cta-final-actions">
-          <a href="https://wa.me/5544991464023?text=Oi%2C%20quero%20ver%20o%20Atende%20Cl%C3%ADnica%20funcionando%20para%20minha%20cl%C3%ADnica" class="cta-primary cta-large">Quero automatizar minha clínica</a>
-          <a href="mailto:patricksilva08@hotmail.com" class="cta-secondary">Ou envie um e-mail</a>
+    <section class="section">
+      <div class="container">
+        <div class="section-heading reveal">
+          <div class="eyebrow">Prova social</div>
+          <h2>Bloco extra para passar mais confiança na apresentação.</h2>
+          <p class="section-subtitle">Mesmo com conteúdo mockado, esse tipo de seção aumenta sensação de maturidade do produto.</p>
+        </div>
+
+        <div class="testimonials-grid">
+          <article class="testimonial-card reveal-left">
+            <div class="testimonial-stars">★★★★★</div>
+            <p>“A impressão é de um atendimento muito mais ágil. O paciente sente que a clínica é organizada desde o primeiro contato.”</p>
+            <div class="testimonial-author">
+              <strong>Clínica Essenza</strong>
+              <span>Gestão de atendimento</span>
+            </div>
+          </article>
+          <article class="testimonial-card reveal">
+            <div class="testimonial-stars">★★★★★</div>
+            <p>“Conseguimos visualizar melhor os horários vagos e agir mais rápido para recuperar agenda.”</p>
+            <div class="testimonial-author">
+              <strong>Studio Dermacare</strong>
+              <span>Operação comercial</span>
+            </div>
+          </article>
+          <article class="testimonial-card reveal-right">
+            <div class="testimonial-stars">★★★★★</div>
+            <p>“A landing transmite muito mais valor quando o produto parece sólido, elegante e integrado.”</p>
+            <div class="testimonial-author">
+              <strong>Apresentação comercial</strong>
+              <span>Formato para vendas</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section cta-final" id="contato">
+      <div class="container">
+        <div class="cta-final-content reveal">
+          <div class="eyebrow">Próximo passo</div>
+          <h2>Pronto para apresentar seu SaaS como um produto de alto valor?</h2>
+          <p>
+            Essa estrutura já está pronta para converter melhor em apresentação e venda. Basta conectar seu conteúdo final, vídeo demo e provas reais.
+          </p>
+          <div class="cta-final-actions">
+            <a href="https://wa.me/5544991464023?text=Oi%2C%20quero%20ver%20o%20Atende%20Cl%C3%ADnica%20funcionando%20para%20minha%20cl%C3%ADnica" class="cta-primary">Quero automatizar minha clínica</a>
+            <a href="mailto:patricksilva08@hotmail.com" class="cta-secondary">Ou enviar um e-mail</a>
+          </div>
         </div>
       </div>
     </section>
   </main>
 
   <footer>
-    <div class="footer-content">
-      <div>
-        <strong>Atende Clínica</strong><br>
-        <span class="footer-tagline">Automação de atendimento e agendamento para clínicas.</span><br>
-        <span>Solare Development — CNPJ: 42.568.198/0001-54</span>
+    <div class="footer-wrap">
+      <div class="footer-copy">
+        <strong>Atende Clínica</strong>
+        <div>Automação de atendimento e agendamento para clínicas.</div>
+        <div>Solare Development — CNPJ: 42.568.198/0001-54</div>
       </div>
+
       <div class="footer-links">
         <a href="privacy.html">Política de Privacidade</a>
         <a href="terms.html">Termos de Uso</a>
         <a href="mailto:patricksilva08@hotmail.com">Contato</a>
       </div>
     </div>
-    <div class="copyright">&copy; 2026 Solare Development. Todos os direitos reservados.</div>
+    <div class="copyright">© 2026 Solare Development. Todos os direitos reservados.</div>
   </footer>
+
+  <script>
+    const revealItems = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.16,
+      rootMargin: '0px 0px -60px 0px'
+    });
+
+    revealItems.forEach((item) => revealObserver.observe(item));
+
+    const counters = document.querySelectorAll('.count-up');
+
+    const animateCounter = (el) => {
+      const target = Number(el.dataset.target || 0);
+      const prefix = el.dataset.prefix || '';
+      const suffix = el.dataset.suffix || '';
+      const duration = 1500;
+      const startTime = performance.now();
+
+      const update = (currentTime) => {
+        const progress = Math.min((currentTime - startTime) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const value = Math.floor(eased * target);
+        el.textContent = `${prefix}${value}${suffix}`;
+
+        if (progress < 1) {
+          requestAnimationFrame(update);
+        } else {
+          el.textContent = `${prefix}${target}${suffix}`;
+        }
+      };
+
+      requestAnimationFrame(update);
+    };
+
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && !entry.target.dataset.animated) {
+          entry.target.dataset.animated = 'true';
+          animateCounter(entry.target);
+          counterObserver.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.5
+    });
+
+    counters.forEach((counter) => counterObserver.observe(counter));
+  </script>
 </body>
 </html>
