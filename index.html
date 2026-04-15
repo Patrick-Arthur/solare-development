@@ -3,117 +3,390 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Atende Clinica: assistente de IA para clinicas de estetica atenderem clientes, responderem duvidas e organizarem agendamentos.">
-  <title>Atende Clinica | Assistente de IA para clinicas de estetica</title>
+  <meta name="description" content="Atende Clinica: automacao de atendimento, agendamento e reativacao de clientes para clinicas. WhatsApp, Google Agenda e Google Sheets integrados.">
+  <title>Atende Clinica | Automacao de atendimento e agendamento para clinicas</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
     <nav>
-      <div class="logo">Solare Development</div>
+      <div class="logo">Atende Clinica</div>
       <div class="nav-links">
+        <a href="#problemas">Problemas</a>
         <a href="#como-funciona">Como funciona</a>
-        <a href="#planos">Planos</a>
-        <a href="#contato" class="cta-nav">Ver demo</a>
+        <a href="#integracoes">Integracoes</a>
+        <a href="#contato" class="cta-nav">Quero ver funcionando</a>
       </div>
     </nav>
   </header>
 
   <main>
+    <!-- HERO -->
     <section class="hero">
       <div class="hero-copy">
         <p class="eyebrow">Atende Clinica</p>
-        <h1>Uma assistente de IA para sua clinica de estetica atender melhor e perder menos agendamentos.</h1>
-        <p class="subtitle">Ela responde duvidas frequentes, organiza pedidos de horario, registra conversas e ajuda sua equipe a focar nos atendimentos presenciais.</p>
+        <h1>Automatize seu atendimento e preencha sua agenda sem depender do WhatsApp manual</h1>
+        <p class="subtitle">Seu sistema responde clientes, organiza agendamentos, integra com Google Agenda e ajuda a reativar pacientes que sumiram.</p>
         <div class="hero-actions">
           <a href="#contato" class="cta-primary">Quero ver funcionando</a>
-          <a href="#como-funciona" class="cta-secondary">Entender a solucao</a>
+          <a href="#demo" class="cta-secondary">Ver demonstracao</a>
+        </div>
+        <div class="hero-proof">
+          <span class="hero-proof-item">WhatsApp automatizado</span>
+          <span class="hero-proof-item">Google Agenda integrado</span>
+          <span class="hero-proof-item">Reativacao de clientes</span>
         </div>
       </div>
-      <img class="hero-image" src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=1400&q=80" alt="Profissional de estetica preparando atendimento em clinica">
+      <div class="hero-visual">
+        <div class="hero-mockup">
+          <div class="mockup-header">
+            <span class="mockup-dot"></span>
+            <span class="mockup-dot"></span>
+            <span class="mockup-dot"></span>
+            <span class="mockup-title">Atende Clinica — Painel</span>
+          </div>
+          <div class="mockup-body">
+            <div class="mockup-chat">
+              <div class="chat-bubble chat-client">Oi, quero agendar uma limpeza de pele para sexta</div>
+              <div class="chat-bubble chat-bot">Claro! Temos horario as 14h e 16h na sexta. Qual prefere?</div>
+              <div class="chat-bubble chat-client">14h por favor</div>
+              <div class="chat-bubble chat-bot">Agendado! Sexta as 14h, limpeza de pele. Envio a confirmacao por aqui mesmo.</div>
+            </div>
+            <div class="mockup-sidebar">
+              <div class="mockup-stat">
+                <span class="stat-number">47</span>
+                <span class="stat-label">Agendamentos este mes</span>
+              </div>
+              <div class="mockup-stat">
+                <span class="stat-number">12</span>
+                <span class="stat-label">Clientes reativados</span>
+              </div>
+              <div class="mockup-stat">
+                <span class="stat-number">94%</span>
+                <span class="stat-label">Taxa de resposta</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <section class="problem">
-      <h2>O que ela ajuda a resolver</h2>
-      <div class="grid">
-        <article class="card">
-          <h3>Mensagens sem resposta</h3>
-          <p>Clientes perguntam sobre procedimentos, horarios e valores enquanto a equipe esta ocupada.</p>
+    <!-- PROBLEMAS -->
+    <section class="problems" id="problemas">
+      <h2>Sua clinica enfrenta isso?</h2>
+      <p class="section-subtitle">Se pelo menos dois desses problemas fazem parte da sua rotina, voce esta perdendo clientes e dinheiro todos os dias.</p>
+      <div class="grid-5">
+        <article class="problem-card">
+          <div class="problem-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><line x1="9" y1="10" x2="9" y2="10"/><line x1="15" y1="10" x2="15" y2="10"/></svg>
+          </div>
+          <h3>Clientes perdidos no WhatsApp</h3>
+          <p>Mensagens chegam, ninguem responde a tempo e o cliente agenda em outro lugar.</p>
         </article>
-        <article class="card">
-          <h3>Agendamentos espalhados</h3>
-          <p>Pedidos chegam por conversa, mas nem sempre viram registro organizado para acompanhar depois.</p>
+        <article class="problem-card">
+          <div class="problem-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <h3>Demora no atendimento</h3>
+          <p>Sua equipe esta ocupada atendendo e nao consegue responder rapido quem esta no chat.</p>
         </article>
-        <article class="card">
+        <article class="problem-card">
+          <div class="problem-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+          <h3>Agenda com buracos</h3>
+          <p>Horarios vazios que poderiam estar preenchidos, mas ninguem faz o acompanhamento.</p>
+        </article>
+        <article class="problem-card">
+          <div class="problem-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+          </div>
+          <h3>Falta de controle</h3>
+          <p>Dados de clientes espalhados, sem historico e sem visao clara de como esta a operacao.</p>
+        </article>
+        <article class="problem-card">
+          <div class="problem-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
           <h3>Clientes que somem</h3>
-          <p>A clinica perde oportunidades de retorno porque nao tem um processo simples de reativacao.</p>
+          <p>Pacientes fazem um procedimento, nao voltam e ninguem entra em contato para reativar.</p>
         </article>
       </div>
     </section>
 
+    <!-- SOLUCAO -->
+    <section class="solution">
+      <h2>Como o Atende Clinica resolve</h2>
+      <p class="section-subtitle">Uma solucao completa que cuida do atendimento, agendamento e acompanhamento dos seus clientes.</p>
+      <div class="solution-grid">
+        <div class="solution-item">
+          <div class="solution-number">1</div>
+          <h3>O bot responde</h3>
+          <p>Atendimento automatico 24h no WhatsApp. Tira duvidas, informa valores e horarios sem depender da sua equipe.</p>
+        </div>
+        <div class="solution-item">
+          <div class="solution-number">2</div>
+          <h3>O sistema agenda</h3>
+          <p>O cliente escolhe data e horario dentro da conversa. Sem formulario externo, sem troca de app.</p>
+        </div>
+        <div class="solution-item">
+          <div class="solution-number">3</div>
+          <h3>A agenda organiza</h3>
+          <p>Tudo entra no Google Agenda e na planilha da clinica automaticamente. Nada se perde.</p>
+        </div>
+        <div class="solution-item">
+          <div class="solution-number">4</div>
+          <h3>A clinica acompanha</h3>
+          <p>Dashboard com visao geral: agendamentos, conversas, metricas e status dos atendimentos.</p>
+        </div>
+        <div class="solution-item">
+          <div class="solution-number">5</div>
+          <h3>Clientes voltam</h3>
+          <p>Identificacao automatica de clientes inativos com fluxo de reativacao para trazer de volta.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMO FUNCIONA -->
     <section class="how" id="como-funciona">
-      <h2>Como funciona</h2>
-      <ol>
-        <li><strong>Configuramos a clinica</strong> com horarios, endereco, especialidades, convenios e regras de atendimento.</li>
-        <li><strong>Testamos a assistente</strong> em uma demo web antes de ligar no WhatsApp oficial.</li>
-        <li><strong>Registramos tudo</strong> em um painel com conversas, agendamentos e configuracoes.</li>
-        <li><strong>Acompanhamos os primeiros dias</strong> para ajustar linguagem, fluxo e respostas.</li>
-      </ol>
+      <h2>Como funciona na pratica</h2>
+      <p class="section-subtitle">Do primeiro contato ate a consulta confirmada, em 5 passos simples.</p>
+      <div class="steps">
+        <div class="step">
+          <div class="step-indicator">
+            <span class="step-number">1</span>
+            <div class="step-line"></div>
+          </div>
+          <div class="step-content">
+            <h3>Cliente chama no WhatsApp</h3>
+            <p>Sua clinica recebe a mensagem no numero oficial. O sistema entra em acao automaticamente.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-indicator">
+            <span class="step-number">2</span>
+            <div class="step-line"></div>
+          </div>
+          <div class="step-content">
+            <h3>Sistema responde e agenda</h3>
+            <p>O bot tira duvidas, mostra horarios disponiveis e registra o agendamento na conversa.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-indicator">
+            <span class="step-number">3</span>
+            <div class="step-line"></div>
+          </div>
+          <div class="step-content">
+            <h3>Consulta entra na agenda</h3>
+            <p>O agendamento aparece no Google Agenda da clinica com todos os detalhes do cliente.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-indicator">
+            <span class="step-number">4</span>
+            <div class="step-line"></div>
+          </div>
+          <div class="step-content">
+            <h3>Dados vao para a planilha</h3>
+            <p>Nome, telefone, procedimento e horario ficam registrados no Google Sheets automaticamente.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-indicator">
+            <span class="step-number">5</span>
+          </div>
+          <div class="step-content">
+            <h3>Clinica acompanha tudo</h3>
+            <p>No painel, voce ve agendamentos, conversas, metricas e clientes que precisam de atencao.</p>
+          </div>
+        </div>
+      </div>
     </section>
 
+    <!-- BENEFICIOS -->
     <section class="benefits">
-      <h2>Primeiros modulos</h2>
-      <div class="grid">
-        <article class="card">
-          <h3>Atendimento inicial</h3>
-          <p>Respostas para procedimentos, localizacao, horarios, preparo e perguntas comuns.</p>
+      <h2>O que muda na sua clinica</h2>
+      <div class="benefits-grid">
+        <article class="benefit-card">
+          <div class="benefit-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <h3>Menos trabalho manual</h3>
+          <p>Sua equipe para de perder tempo respondendo as mesmas perguntas e anotando agendamentos a mao.</p>
         </article>
-        <article class="card">
-          <h3>Agendamento assistido</h3>
-          <p>Coleta nome, telefone, tipo de procedimento, data e horario para registrar no painel.</p>
+        <article class="benefit-card">
+          <div class="benefit-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          </div>
+          <h3>Mais organizacao</h3>
+          <p>Agenda, planilha e painel centralizados. Nada se perde entre conversas e anotacoes.</p>
         </article>
-        <article class="card">
-          <h3>Painel da clinica</h3>
-          <p>Acompanhamento de agendamentos, conversas recentes e dados usados pela assistente.</p>
+        <article class="benefit-card">
+          <div class="benefit-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          </div>
+          <h3>Mais previsibilidade</h3>
+          <p>Com dados organizados, voce sabe quantos agendamentos tem, quem vem e quem nao volta.</p>
+        </article>
+        <article class="benefit-card">
+          <div class="benefit-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <h3>Clientes que voltam</h3>
+          <p>Reativacao automatica traz de volta quem sumiu. Sem depender da memoria da equipe.</p>
+        </article>
+        <article class="benefit-card">
+          <div class="benefit-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+          <h3>Melhor experiencia</h3>
+          <p>Seus clientes recebem resposta rapida, confirmacao imediata e atendimento consistente.</p>
         </article>
       </div>
     </section>
 
-    <section class="plans" id="planos">
-      <h2>Entrada simples para validar</h2>
-      <div class="plan-grid">
-        <article class="plan">
-          <h3>Base</h3>
-          <p class="price">R$497/mês</p>
-          <p>Demo personalizada, painel, atendimento inicial e agendamento assistido.</p>
-        </article>
-        <article class="plan featured">
-          <h3>Pro</h3>
-          <p class="price">R$897/mês</p>
-          <p>Inclui ajustes acompanhados, conteudo semanal e fluxo de reativacao simples.</p>
-        </article>
-        <article class="plan">
-          <h3>Implantacao</h3>
-          <p class="price">sob combinacao</p>
-          <p>Configuracao inicial, treinamento curto da equipe e acompanhamento dos primeiros atendimentos.</p>
-        </article>
+    <!-- INTEGRACOES -->
+    <section class="integrations" id="integracoes">
+      <h2>Integracoes que sua clinica ja usa</h2>
+      <p class="section-subtitle">O Atende Clinica se conecta com as ferramentas do dia a dia da sua equipe.</p>
+      <div class="integrations-grid">
+        <div class="integration-card">
+          <div class="integration-icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          </div>
+          <h3>WhatsApp</h3>
+          <p>Atendimento automatico no numero da sua clinica, 24 horas por dia.</p>
+        </div>
+        <div class="integration-card">
+          <div class="integration-icon">
+            <svg width="40" height="40" viewBox="0 0 24 24"><path fill="#0F9D58" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/><path fill="#fff" d="M19 11H5v2h14v-2zm0-4H5v2h14V7zm-7 8H5v2h7v-2z"/></svg>
+          </div>
+          <h3>Google Sheets</h3>
+          <p>Dados de clientes e agendamentos registrados automaticamente na planilha.</p>
+        </div>
+        <div class="integration-card">
+          <div class="integration-icon">
+            <svg width="40" height="40" viewBox="0 0 24 24"><path fill="#4285F4" d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10z"/><path fill="#4285F4" d="M9 14h2v2H9zm4 0h2v2h-2zm-4-4h2v2H9zm4 0h2v2h-2z"/></svg>
+          </div>
+          <h3>Google Calendar</h3>
+          <p>Agendamentos entram direto no Google Agenda da clinica com detalhes completos.</p>
+        </div>
+        <div class="integration-card">
+          <div class="integration-icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0e7c66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+          </div>
+          <h3>Painel interno</h3>
+          <p>Dashboard com visao completa: conversas, agendamentos, metricas e configuracoes.</p>
+        </div>
       </div>
     </section>
 
-    <section id="contato" class="contact">
-      <h2>Veja uma demonstracao personalizada</h2>
-      <p>Me envie o nome da sua clinica e quais procedimentos voces mais atendem. Eu preparo uma demonstracao simples para voce testar.</p>
-      <p class="email"><a href="mailto:patricksilva08@hotmail.com">patricksilva08@hotmail.com</a></p>
-      <p><a href="https://wa.me/5544991464023">WhatsApp: +55 44 99146-4023</a></p>
+    <!-- DEMO / PROVA -->
+    <section class="demo-section" id="demo">
+      <h2>Veja o sistema em acao</h2>
+      <p class="section-subtitle">Veja como o atendimento automatico funciona na pratica.</p>
+      <div class="demo-grid">
+        <div class="demo-card">
+          <div class="demo-card-header">Atendimento automatico</div>
+          <div class="demo-card-body">
+            <div class="demo-chat">
+              <div class="demo-msg demo-msg-client">Boa tarde! Vocces fazem limpeza de pele?</div>
+              <div class="demo-msg demo-msg-bot">Oi! Sim, fazemos limpeza de pele com hidratacao. O procedimento dura cerca de 1h e o valor e R$180. Quer agendar?</div>
+              <div class="demo-msg demo-msg-client">Quero! Tem horario quinta?</div>
+              <div class="demo-msg demo-msg-bot">Quinta temos as 10h, 14h e 16h. Qual horario fica melhor pra voce?</div>
+            </div>
+          </div>
+        </div>
+        <div class="demo-card">
+          <div class="demo-card-header">Agenda organizada</div>
+          <div class="demo-card-body">
+            <div class="demo-agenda">
+              <div class="agenda-item">
+                <span class="agenda-time">09:00</span>
+                <div class="agenda-detail">
+                  <strong>Maria Silva</strong>
+                  <span>Limpeza de pele</span>
+                </div>
+                <span class="agenda-status confirmed">Confirmado</span>
+              </div>
+              <div class="agenda-item">
+                <span class="agenda-time">10:30</span>
+                <div class="agenda-detail">
+                  <strong>Ana Costa</strong>
+                  <span>Peeling quimico</span>
+                </div>
+                <span class="agenda-status confirmed">Confirmado</span>
+              </div>
+              <div class="agenda-item">
+                <span class="agenda-time">14:00</span>
+                <div class="agenda-detail">
+                  <strong>Carla Souza</strong>
+                  <span>Microagulhamento</span>
+                </div>
+                <span class="agenda-status pending">Pendente</span>
+              </div>
+              <div class="agenda-item">
+                <span class="agenda-time">16:00</span>
+                <div class="agenda-detail">
+                  <strong>Julia Ferreira</strong>
+                  <span>Limpeza de pele</span>
+                </div>
+                <span class="agenda-status confirmed">Confirmado</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="demo-card">
+          <div class="demo-card-header">Reativacao de clientes</div>
+          <div class="demo-card-body">
+            <div class="demo-reactivation">
+              <div class="reactivation-item">
+                <div class="reactivation-info">
+                  <strong>Fernanda Lima</strong>
+                  <span>Ultima visita: 45 dias atras</span>
+                </div>
+                <span class="reactivation-badge">Mensagem enviada</span>
+              </div>
+              <div class="reactivation-item">
+                <div class="reactivation-info">
+                  <strong>Patricia Alves</strong>
+                  <span>Ultima visita: 60 dias atras</span>
+                </div>
+                <span class="reactivation-badge success">Reagendou</span>
+              </div>
+              <div class="reactivation-item">
+                <div class="reactivation-info">
+                  <strong>Camila Rocha</strong>
+                  <span>Ultima visita: 38 dias atras</span>
+                </div>
+                <span class="reactivation-badge">Aguardando</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA FINAL -->
+    <section id="contato" class="cta-final">
+      <div class="cta-final-content">
+        <h2>Pronto para automatizar o atendimento da sua clinica?</h2>
+        <p>Deixe o WhatsApp manual para tras. Monte uma demonstracao personalizada para sua clinica e veja como funciona na pratica.</p>
+        <div class="cta-final-actions">
+          <a href="https://wa.me/5544991464023?text=Oi%2C%20quero%20ver%20o%20Atende%20Clinica%20funcionando%20para%20minha%20cl%C3%ADnica" class="cta-primary cta-large">Quero automatizar minha clinica</a>
+          <a href="mailto:patricksilva08@hotmail.com" class="cta-secondary">Ou envie um email</a>
+        </div>
+      </div>
     </section>
   </main>
 
   <footer>
     <div class="footer-content">
       <div>
-        <strong>Solare Development</strong><br>
-        Assistentes de IA e software sob medida.<br>
-        <span>CNPJ: 42.568.198/0001-54</span>
+        <strong>Atende Clinica</strong><br>
+        <span class="footer-tagline">Automacao de atendimento e agendamento para clinicas.</span><br>
+        <span>Solare Development — CNPJ: 42.568.198/0001-54</span>
       </div>
       <div class="footer-links">
         <a href="privacy.html">Politica de Privacidade</a>
@@ -121,7 +394,7 @@
         <a href="mailto:patricksilva08@hotmail.com">Contato</a>
       </div>
     </div>
-    <div class="copyright">© 2026 Solare Development. Todos os direitos reservados.</div>
+    <div class="copyright">&copy; 2026 Solare Development. Todos os direitos reservados.</div>
   </footer>
 </body>
 </html>
